@@ -61,17 +61,17 @@ function randomizeColor() {
     let b = Math.floor(Math.random()*256);
     const randomColor = "rgb("+r+","+g+","+b+")";
     e.target.style.backgroundColor = randomColor;
+    e.target.style.opacity = 1;
   }  
 }
 function makeGreyscale() {
   function getGreyscaleColor(e) {
-     console.log(e.target.style.opacity);
-    if (e.target.style.backgroundColor !== 'rgb(0, 0, 0)') {
+    console.log(e.target.style.backgroundColor);
+    if (!(e.target.style.backgroundColor == 'rgb(0, 0, 0)')) {
       e.target.style.backgroundColor = '#000';
       e.target.style.opacity = 0.1;
     } else {
       e.target.style.opacity = Number(e.target.style.opacity) + 0.1;
-      console.log(e.target.style.opacity);
     }
   }
   for (i=0; i<allGridSquares.length; i++) {
