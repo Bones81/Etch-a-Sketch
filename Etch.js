@@ -11,21 +11,22 @@ function defaultBehavior() {
     allGridSquares[i].addEventListener('mouseenter', fillBlack);
   }
 }
-//set default behavior
 function fillBlack(e) {
   e.target.style.backgroundColor = 'rgb(0, 0, 0)';
 }
 defaultBehavior();
-//store button variables
+
 const resetBtn = document.querySelector('#reset-button');
 const bwBtn = document.querySelector('#bw-button');
 const greyscaleBtn = document.querySelector('#greyscale-button');
 const randomizerBtn = document.querySelector('#random-color-button');
-//what to run when each button clicked
+const eraserBtn = document.querySelector('#eraser-button');
+
 resetBtn.addEventListener('click', resetGrid);
 bwBtn.addEventListener('click', changeToBlack);
 greyscaleBtn.addEventListener('click', makeGreyscale);
 randomizerBtn.addEventListener('click', randomizeColor);
+eraserBtn.addEventListener('click', eraser);
 
 function resetGrid() {
   container.innerHTML = "";
@@ -82,16 +83,19 @@ function makeGreyscale() {
   function getGreyscaleColor(e) {
     const blackRGB = "0, 0, 0";
     const startValue = "rgba(0, 0, 0, 0.1)";
-    console.log("rgba? "+e.target.style.backgroundColor.search('rgba'));
+
     if(e.target.style.backgroundColor.search('rgba') === -1) {
-      e.target.style.backgroundColor = startValue;
-      //console.log(e.target.style.backgroundColor);
+      if(e.target.style.backgroundColor == 'rgb(0, 0, 0)') {
+        e.target.removeEventListener('mouseenter', getGreyscaleColor);
+      } else {
+        e.target.style.backgroundColor = startValue;
+      }
     } else {
       let alphaValue = e.target.style.backgroundColor.slice(14, 17);
       //console.log(alphaValue);
       if (alphaValue > 0 && alphaValue < 1) {
         alphaValue = Number(alphaValue) + 0.1;
-        console.log(alphaValue);
+        //console.log(alphaValue);
         e.target.style.backgroundColor = `rgb(${blackRGB}, ${alphaValue})`;
         if(alphaValue == 1) {
           e.target.removeEventListener('mouseenter', getGreyscaleColor);
@@ -101,15 +105,13 @@ function makeGreyscale() {
       }
     }
   }
-  /*console.log(e.target.style.backgroundColor);
-  if (e.target.style.backgroundColor == 'rgb(0, 0, 0)') {
-    console.log(e.target.style.alphaValue);
-    e.target.style.alphaValue = Number(e.target.style.alphaValue) + 0.1;
-    console.log(e.target.style.alphaValue);
-  } else {
-    e.target.style.backgroundColor = 'rgb(0, 0, 0)';
-    e.target.style.alphaValue = 0.1;
-  }*/
-  
-  
+}
+function eraser() {
+  container.innerHTML = container.innerHTML;
+  for (i=0; i<allGridSquares.length; i++) {
+    allGridSquares[i].addEventListener('mouseenter', erase);
+  }
+  function erase(e) {
+    e.target.style.backgroundColor = "";
+  }
 }
