@@ -82,31 +82,24 @@ function makeGreyscale() {
   function getGreyscaleColor(e) {
     const blackRGB = "0, 0, 0";
     const startValue = "rgba(0, 0, 0, 0.1)";
-    //console.log("rgba? "+e.target.style.backgroundColor.search('rgba'));
+    console.log("rgba? "+e.target.style.backgroundColor.search('rgba'));
     if(e.target.style.backgroundColor.search('rgba') === -1) {
       e.target.style.backgroundColor = startValue;
       //console.log(e.target.style.backgroundColor);
     } else {
       let alphaValue = e.target.style.backgroundColor.slice(14, 17);
-      console.log(alphaValue);
+      //console.log(alphaValue);
       if (alphaValue > 0 && alphaValue < 1) {
         alphaValue = Number(alphaValue) + 0.1;
         console.log(alphaValue);
         e.target.style.backgroundColor = `rgb(${blackRGB}, ${alphaValue})`;
+        if(alphaValue == 1) {
+          e.target.removeEventListener('mouseenter', getGreyscaleColor);
+        }
+      } else {
+        console.log("An error may have occurred.");
       }
     }
-      /*else if (alphaValue > 0 && alphaValue < 1) {
-      console.log(alphaValue + 0.1);
-      alphaValue += 0.1;
-      console.log(alphaValue);
-      e.target.style.backgroundColor = `rgba(${blackRGB}, ${alphaValue})`;
-      
-    } else if(e.target.style.alphaValue === '1' && e.target.style.backgroundColor.search('rgba') === 3 ) {
-      //do nothing (grid square should already be at alphaValue of 1; otherwise, square would start over at alphaValue 0.1)
-      ;
-      else {
-        console.log("An error may have occurred.");
-    }*/
   }
   /*console.log(e.target.style.backgroundColor);
   if (e.target.style.backgroundColor == 'rgb(0, 0, 0)') {
